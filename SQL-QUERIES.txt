@@ -1,0 +1,573 @@
+#SHOW EXISTING DATABASES
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| anita              |
+| information_schema |
+| mysql              |
+| nasmas             |
+| performance_schema |
+| shinde             |
+| student            |
+| sys                |
++--------------------+
+8 rows in set (0.38 sec)
+
+#USE DATABASE
+mysql> use anita;
+Database changed
+
+#CREATE TABLE
+mysql> create table employee(eid int primary key, ename varchar(200), salary int, city varchar(200));
+Query OK, 0 rows affected (0.14 sec)
+
+#INSERT RECORDS INTO THE TABLE
+mysql> insert into employee values(1,"kiran",20000,"pune"),(2,"rutik",30000,"mumbai"),(3,"revati",10000,"nagpur"),(4,"rohan",120000,"thane"),(5,"devika",34000,"gujrat");
+Query OK, 5 rows affected (0.03 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+#SHOW ALL RECORDS
+mysql> select * from employee;
++-----+--------+--------+--------+
+| eid | ename  | salary | city   |
++-----+--------+--------+--------+
+|   1 | kiran  |  20000 | pune   |
+|   2 | rutik  |  30000 | mumbai |
+|   3 | revati |  10000 | nagpur |
+|   4 | rohan  | 120000 | thane  |
+|   5 | devika |  34000 | gujrat |
++-----+--------+--------+--------+
+5 rows in set (0.00 sec)
+
+DESCRIBE TABLE
+mysql> desc employee;
++--------+--------------+------+-----+---------+-------+
+| Field  | Type         | Null | Key | Default | Extra |
++--------+--------------+------+-----+---------+-------+
+| eid    | int          | NO   | PRI | NULL    |       |
+| ename  | varchar(200) | YES  |     | NULL    |       |
+| salary | int          | YES  |     | NULL    |       |
+| city   | varchar(200) | YES  |     | NULL    |       |
++--------+--------------+------+-----+---------+-------+
+4 rows in set (0.02 sec)
+
+#ADD COLUMEN TO TABLE
+mysql> alter table employee add address varchar(100);
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+#ADD/UPDATE VALUES TO COLUMN
+mysql> update employee set address="palghar" where eid=2;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+#SHOW RECORD DETAILS
+mysql> select * from employee;
++-----+--------+--------+--------+---------+
+| eid | ename  | salary | city   | address |
++-----+--------+--------+--------+---------+
+|   1 | kiran  |  20000 | pune   | NULL    |
+|   2 | rutik  |  30000 | mumbai | palghar |
+|   3 | revati |  10000 | nagpur | NULL    |
+|   4 | rohan  | 120000 | thane  | NULL    |
+|   5 | devika |  34000 | gujrat | NULL    |
++-----+--------+--------+--------+---------+
+5 rows in set (0.00 sec)
+
+#DELETE 1 RECORD FROM COLUMN
+mysql> delete from employee where sid=2;
+ERROR 1054 (42S22): Unknown column 'sid' in 'where clause'
+mysql> delete from employee where eid=2;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from employee;
++-----+--------+--------+--------+---------+
+| eid | ename  | salary | city   | address |
++-----+--------+--------+--------+---------+
+|   1 | kiran  |  20000 | pune   | NULL    |
+|   3 | revati |  10000 | nagpur | NULL    |
+|   4 | rohan  | 120000 | thane  | NULL    |
+|   5 | devika |  34000 | gujrat | NULL    |
++-----+--------+--------+--------+---------+
+4 rows in set (0.00 sec)
+
+#AGGREGATE FUNCTIONS-
+mysql> select max(salary) from employee;
++-------------+
+| max(salary) |
++-------------+
+|      120000 |
++-------------+
+1 row in set (0.01 sec)
+
+mysql> select min(salary) from employee;
++-------------+
+| min(salary) |
++-------------+
+|       10000 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select count(salary) from employee;
++---------------+
+| count(salary) |
++---------------+
+|             4 |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> select avg(salary) from employee;
++-------------+
+| avg(salary) |
++-------------+
+|  46000.0000 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select sum(salary) from employee;
++-------------+
+| sum(salary) |
++-------------+
+|      184000 |
++-------------+
+1 row in set (0.00 sec)
+
+#OPERATORS-
+
+mysql> select * from employee where eid=3 and ename="revati";
++-----+--------+--------+--------+---------+
+| eid | ename  | salary | city   | address |
++-----+--------+--------+--------+---------+
+|   3 | revati |  10000 | nagpur | NULL    |
++-----+--------+--------+--------+---------+
+1 row in set (0.00 sec)
+
+mysql> select * from employee where eid=3 or ename="revati";
++-----+--------+--------+--------+---------+
+| eid | ename  | salary | city   | address |
++-----+--------+--------+--------+---------+
+|   3 | revati |  10000 | nagpur | NULL    |
++-----+--------+--------+--------+---------+
+1 row in set (0.00 sec)
+
+mysql> select * from employee where eid in(1,3,4,5);
++-----+--------+--------+--------+---------+
+| eid | ename  | salary | city   | address |
++-----+--------+--------+--------+---------+
+|   1 | kiran  |  20000 | pune   | NULL    |
+|   3 | revati |  10000 | nagpur | NULL    |
+|   4 | rohan  | 120000 | thane  | NULL    |
+|   5 | devika |  34000 | gujrat | NULL    |
++-----+--------+--------+--------+---------+
+4 rows in set (0.00 sec)
+
+mysql> select * from employee where eid not in(1, 3,4,5);
+Empty set (0.00 sec)
+
+mysql> select * from employee where eid between 3 and 5;
++-----+--------+--------+--------+---------+
+| eid | ename  | salary | city   | address |
++-----+--------+--------+--------+---------+
+|   3 | revati |  10000 | nagpur | NULL    |
+|   4 | rohan  | 120000 | thane  | NULL    |
+|   5 | devika |  34000 | gujrat | NULL    |
++-----+--------+--------+--------+---------+
+3 rows in set (0.00 sec)
+
+mysql> select * from employee where eid not between 3 and 5;
++-----+-------+--------+------+---------+
+| eid | ename | salary | city | address |
++-----+-------+--------+------+---------+
+|   1 | kiran |  20000 | pune | NULL    |
++-----+-------+--------+------+---------+
+1 row in set (0.00 sec)
+
+mysql> select * from employee where ename like "a%";
+Empty set (0.00 sec)
+
+mysql> select * from employee where ename like "i%";
+Empty set (0.00 sec)
+
+mysql> select * from employee where ename like "_o%";
++-----+-------+--------+-------+---------+
+| eid | ename | salary | city  | address |
++-----+-------+--------+-------+---------+
+|   4 | rohan | 120000 | thane | NULL    |
++-----+-------+--------+-------+---------+
+1 row in set (0.00 sec)
+
+mysql> select * from employee where ename like "%n";
++-----+-------+--------+-------+---------+
+| eid | ename | salary | city  | address |
++-----+-------+--------+-------+---------+
+|   1 | kiran |  20000 | pune  | NULL    |
+|   4 | rohan | 120000 | thane | NULL    |
++-----+-------+--------+-------+---------+
+2 rows in set (0.00 sec)
+
+mysql> select * from employee where ename like "r%";
++-----+--------+--------+--------+---------+
+| eid | ename  | salary | city   | address |
++-----+--------+--------+--------+---------+
+|   3 | revati |  10000 | nagpur | NULL    |
+|   4 | rohan  | 120000 | thane  | NULL    |
++-----+--------+--------+--------+---------+
+2 rows in set (0.00 sec)
+
+mysql> select * from employee where salary is null;
+Empty set (0.00 sec)
+
+mysql> select * from employee where salary is not null;
++-----+--------+--------+--------+---------+
+| eid | ename  | salary | city   | address |
++-----+--------+--------+--------+---------+
+|   1 | kiran  |  20000 | pune   | NULL    |
+|   3 | revati |  10000 | nagpur | NULL    |
+|   4 | rohan  | 120000 | thane  | NULL    |
+|   5 | devika |  34000 | gujrat | NULL    |
++-----+--------+--------+--------+---------+
+4 rows in set (0.00 sec)
+
+
+#CONSTRAINTS
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| anita              |
+| information_schema |
+| mysql              |
+| nasmas             |
+| performance_schema |
+| shinde             |
+| student            |
+| sys                |
++--------------------+
+8 rows in set (0.00 sec)
+
+mysql> use anita;
+Database changed
+mysql> create table employee(eid int, firstName varchar(20),lastName varchar(20),empAge int, empZone varchar(20));
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> desc employee;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| eid       | int         | YES  |     | NULL    |       |
+| firstName | varchar(20) | YES  |     | NULL    |       |
+| lastName  | varchar(20) | YES  |     | NULL    |       |
+| empAge    | int         | YES  |     | NULL    |       |
+| empZone   | varchar(20) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> insert into employee values(1,"jack","sparrow",10,"North");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from employee;
++------+-----------+----------+--------+---------+
+| eid  | firstName | lastName | empAge | empZone |
++------+-----------+----------+--------+---------+
+|    1 | jack      | sparrow  |     10 | North   |
++------+-----------+----------+--------+---------+
+1 row in set (0.00 sec)
+
+mysql> desc employee;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| eid       | int         | YES  |     | NULL    |       |
+| firstName | varchar(20) | YES  |     | NULL    |       |
+| lastName  | varchar(20) | YES  |     | NULL    |       |
+| empAge    | int         | YES  |     | NULL    |       |
+| empZone   | varchar(20) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> select eid from employee;
++------+
+| eid  |
++------+
+|    1 |
++------+
+1 row in set (0.00 sec)
+
+mysql> select eid,empName,lastName from employee;
+ERROR 1054 (42S22): Unknown column 'empName' in 'field list'
+mysql> select eid,firstName,lastName from employee;
++------+-----------+----------+
+| eid  | firstName | lastName |
++------+-----------+----------+
+|    1 | jack      | sparrow  |
++------+-----------+----------+
+1 row in set (0.00 sec)
+
+#NOT NULL CONSTRAINTS
+mysql> create table emp(empid int not null, firstName varchar(20),lastName varchar(20),empAge int);
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> insert into emp values(1,"jack","Naik",25);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from emp;
++-------+-----------+----------+--------+
+| empid | firstName | lastName | empAge |
++-------+-----------+----------+--------+
+|     1 | jack      | Naik     |     25 |
++-------+-----------+----------+--------+
+1 row in set (0.00 sec)
+
+mysql> create table emp2(empid int not null, firstName varchar(50),lastName varchar(50),unique(empid));
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> desc emp;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| empid     | int         | NO   |     | NULL    |       |
+| firstName | varchar(20) | YES  |     | NULL    |       |
+| lastName  | varchar(20) | YES  |     | NULL    |       |
+| empAge    | int         | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+#PRIMARY KEY CONSTRAINTS
+mysql> create table emp3(empid int not null,firstName varchar(50),lastName varchar(50),empZone varchar(50),primary key(empid));
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> desc emp3;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| empid     | int         | NO   | PRI | NULL    |       |
+| firstName | varchar(50) | YES  |     | NULL    |       |
+| lastName  | varchar(50) | YES  |     | NULL    |       |
+| empZone   | varchar(50) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+#CHECK CONSTRAINTS
+mysql>  create table emp4(empid int not null,firstName varchar(50),lastName varchar(50),empAge int,check(empAge>20));
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> desc emp4;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| empid     | int         | NO   |     | NULL    |       |
+| firstName | varchar(50) | YES  |     | NULL    |       |
+| lastName  | varchar(50) | YES  |     | NULL    |       |
+| empAge    | int         | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+
+mysql> insert into emp4 values(1,"john","hunks",28);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from emp4;
++-------+-----------+----------+--------+
+| empid | firstName | lastName | empAge |
++-------+-----------+----------+--------+
+|     1 | john      | hunks    |     28 |
++-------+-----------+----------+--------+
+1 row in set (0.00 sec)
+
+
+#DEFAULT CONSTRAINTS
+mysql> create table emp5(empid int not null, firstName varchar(20),lastName varchar(20),empDept varchar(20) default 'operations');
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> desc emp5;
++-----------+-------------+------+-----+------------+-------+
+| Field     | Type        | Null | Key | Default    | Extra |
++-----------+-------------+------+-----+------------+-------+
+| empid     | int         | NO   |     | NULL       |       |
+| firstName | varchar(20) | YES  |     | NULL       |       |
+| lastName  | varchar(20) | YES  |     | NULL       |       |
+| empDept   | varchar(20) | YES  |     | operations |       |
++-----------+-------------+------+-----+------------+-------+
+4 rows in set (0.00 sec)
+
+mysql> insert into emp5 values(1,"Emmma","stone");
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> insert into emp5 values(1,"Emmma","stone","IT");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from emp5;
++-------+-----------+----------+---------+
+| empid | firstName | lastName | empDept |
++-------+-----------+----------+---------+
+|     1 | Emmma     | stone    | IT      |
++-------+-----------+----------+---------+
+1 row in set (0.00 sec)
+
+
+mysql> create index demoindex on emp4(firstName);
+Query OK, 0 rows affected (0.11 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+#INDEX CONSTRAINTS
+mysql> create index demoindex2 on emp5(firstName,lastName);
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> drop index demoindex on emp4;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> show indexes from emp4;
+Empty set (0.01 sec)
+
+mysql> show indexes from emp5;
++-------+------------+------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| Table | Non_unique | Key_name   | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++-------+------------+------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| emp5  |          1 | demoindex2 |            1 | firstName   | A         |           1 |     NULL |   NULL | YES  | BTREE      |         |               | YES     | NULL       |
+| emp5  |          1 | demoindex2 |            2 | lastName    | A         |           1 |     NULL |   NULL | YES  | BTREE      |         |               | YES     | NULL       |
++-------+------------+------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+2 rows in set (0.01 sec)
+
+mysql> desc emp5;
++-----------+-------------+------+-----+------------+-------+
+| Field     | Type        | Null | Key | Default    | Extra |
++-----------+-------------+------+-----+------------+-------+
+| empid     | int         | NO   |     | NULL       |       |
+| firstName | varchar(20) | YES  | MUL | NULL       |       |
+| lastName  | varchar(20) | YES  |     | NULL       |       |
+| empDept   | varchar(20) | YES  |     | operations |       |
++-----------+-------------+------+-----+------------+-------+
+4 rows in set (0.00 sec)
+
+mysql> alter table emp4 add empdept varchar(20);
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc emp4;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| empid     | int         | NO   |     | NULL    |       |
+| firstName | varchar(50) | YES  |     | NULL    |       |
+| lastName  | varchar(50) | YES  |     | NULL    |       |
+| empAge    | int         | YES  |     | NULL    |       |
+| empdept   | varchar(20) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> alter table emp4 drop column empdept;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc emp4;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| empid     | int         | NO   |     | NULL    |       |
+| firstName | varchar(50) | YES  |     | NULL    |       |
+| lastName  | varchar(50) | YES  |     | NULL    |       |
+| empAge    | int         | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+#DROP COLUMN
+mysql> select empAge drop column emptdept;
+
+mysql> select distinct empid from emp4;
++-------+
+| empid |
++-------+
+|     1 |
++-------+
+1 row in set (0.00 sec)
+
+mysql> select * from emp4;
++-------+-----------+----------+--------+
+| empid | firstName | lastName | empAge |
++-------+-----------+----------+--------+
+|     1 | john      | hunks    |     28 |
++-------+-----------+----------+--------+
+1 row in set (0.00 sec)
+
+mysql> select * from emp4 where empAge=25;
+Empty set (0.00 sec)
+
+#WHERE CLAUSE
+mysql> select * from emp4 where empAge=28;
++-------+-----------+----------+--------+
+| empid | firstName | lastName | empAge |
++-------+-----------+----------+--------+
+|     1 | john      | hunks    |     28 |
++-------+-----------+----------+--------+
+1 row in set (0.00 sec)
+
+mysql> select * from emp4 where empAge<30;
++-------+-----------+----------+--------+
+| empid | firstName | lastName | empAge |
++-------+-----------+----------+--------+
+|     1 | john      | hunks    |     28 |
++-------+-----------+----------+--------+
+1 row in set (0.00 sec)
+
+
+mysql> select * from emp4;
++-------+-----------+----------+--------+
+| empid | firstName | lastName | empAge |
++-------+-----------+----------+--------+
+|     1 | john      | hunks    |     28 |
++-------+-----------+----------+--------+
+1 row in set (0.00 sec)
+
+
+#COUNT(*)
+mysql> select count(*) from emp4;
++----------+
+| count(*) |
++----------+
+|        1 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> desc emp4;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| empid     | int         | NO   |     | NULL    |       |
+| firstName | varchar(50) | YES  |     | NULL    |       |
+| lastName  | varchar(50) | YES  |     | NULL    |       |
+| empAge    | int         | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> select * from emp4;
++-------+-----------+----------+--------+
+| empid | firstName | lastName | empAge |
++-------+-----------+----------+--------+
+|     1 | john      | hunks    |     28 |
++-------+-----------+----------+--------+
+1 row in set (0.00 sec)
+
+mysql> drop table emp4;
+Query OK, 0 rows affected (0.05 sec)
+
+#DROP DATABASE
+mysql> drop database anita;
+Query OK, 15 rows affected (0.38 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| nasmas             |
+| performance_schema |
+| shinde             |
+| student            |
+| sys                |
++--------------------+
+7 rows in set (0.00 sec)

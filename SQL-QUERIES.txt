@@ -1,3 +1,4 @@
+#BASIC SQL COMMANDS ND QUERIES
 #SHOW EXISTING DATABASES
 
 mysql> show databases;
